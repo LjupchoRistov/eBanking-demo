@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="text-center mb-5">
+            <h1 class="fw-bolder">User roles</h1>
+            <p class="lead fw-normal text-muted mb-0">You can add one role at a time.</p>
+        </div>
+        <div class="container px-5 my-5">
+            <div class="col-lg-6 mb-4 w-50 h-50 ">
+                <h5>
+                    <a>User {</a>
+                    <a th:text="${user.username}"></a>
+                    <a>} roles:</a>
+                </h5>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <form method="post" action="/role/remove">
+                    <input type="text" name="userId" th:value="${user.id}" hidden/>
+                    <div class="position-relative mb-3">
+                        <div th:each="role : ${user.roles}">
+                            <input th:if="!${role.name.equals('USER')}" class="form-check-input" type="radio" th:value="${role.id}" name="roleId"
+                                   th:text="${role.name}" id="${role.id}" required>
+                            <label th:if="!${role.name.equals('USER')}" class="form-check-label" for="${role.name}">
+
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative mb-3">
+                        <a>Default role cannot be removed:</a>
+                        <a class="fst-italic">USER</a>
+                    </div>
+                    <div class="position-relative">
+                        <div class="d-inline-block">
+                            <input th:if="${user.roles.size > 1}" type='submit' class="btn btn-dark" value='Remove role'>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="col-lg-6 mb-4 w-50 h-50 ">
+                <h5>
+                    <a>Add role to user {</a>
+                    <a th:text="${user.username}"></a>
+                    <a>}:</a>
+                </h5>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <form method="post" action="/role/add">
+                    <input type="text" name="userId" th:value="${user.id}" hidden/>
+                    <div class="position-relative mb-3">
+                        <div th:each="role : ${missingRoles}">
+                            <input class="form-check-input" type="radio" th:value="${role.name}" name="roleName"
+                                   th:text="${role.name}" id="${role.name}" required>
+                            <label class="form-check-label" for="${role.name}">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="d-inline-block">
+                            <input th:if="${hasMissingRoles}" type='submit' class="btn btn-dark" value='Add role'>
+                            <a th:if="!${hasMissingRoles}">The user has all the roles!</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

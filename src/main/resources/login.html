@@ -1,0 +1,112 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+        layout:decorate="~{layout}">
+<head>
+    <title>Register</title>
+</head>
+<section layout:fragment="body">
+    <style>
+        .main {
+            padding: 0px 10px;
+        }
+
+        .custom-width {
+            width: 250px; /* Adjust the width as needed */
+        }
+
+        .inputDiv {
+            margin-bottom: 15px;
+        }
+
+        @media screen and (max-width: 450px) {
+            .login-form {
+                margin-top: 10%;
+            }
+
+            .register-form {
+                margin-top: 10%;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .main {
+                margin-left: 30%;
+            }
+
+            .sidenav {
+                width: 40%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
+    <div class="main">
+        <div class="col-md-6 col-sm-12">
+            <div class="container mt-5" sec:authorize="isAuthenticated()">
+                <div class="alert alert-success">
+                    You are already logged in!
+                </div>
+            </div>
+            <div th:if="${param.error}" class="alert alert-success mt-5">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success mt-5">
+                You have been logged out.
+            </div>
+            <div class="login-form pb-10" style="padding-top: 20px" sec:authorize="!isAuthenticated()">
+                <form method="post" role="form" th:action="@{/login}">
+                    <!-- other form fields -->
+                    <div class="form-group inputDiv">
+                        <label>Username</label>
+                        <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                class="form-control"
+                                placeholder="Username"
+                        >
+                    </div>
+                    <div class="form-group inputDiv">
+                        <label>Password</label>
+                        <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="form-control"
+                                placeholder="Password"
+                        >
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <label>VERIFY</label>
+                        </div>
+                        <div class="col-4">
+                            <div class="g-recaptcha"
+                                 data-sitekey="6LcvWYApAAAAAGYyzgKdu6_hs8UGdsQwZsW-0lDU">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <button type="submit" value="Log in" class="btn btn-dark custom-width">Login</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            Don't have an account? <a th:href="@{/register}" class="text-decoration-none">Register
+                            here!</a>
+                        </div>
+                    </div>
+                </form>
+                <div th:if="${message!=null}">
+                    <span class="alert alert-danger" th:text="${message}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

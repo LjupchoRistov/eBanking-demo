@@ -1,0 +1,110 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Register</title>
+</head>
+<section layout:fragment="body">
+    <style>
+        .main {
+            padding: 0px 10px;
+        }
+
+        .custom-width {
+            width: 250px; /* Adjust the width as needed */
+        }
+
+        .inputDiv {
+            margin-bottom: 15px;
+        }
+
+        @media screen and (max-width: 450px) {
+            .login-form {
+                margin-top: 10%;
+            }
+
+            .register-form {
+                margin-top: 10%;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .main {
+                margin-left: 30%;
+            }
+
+            .sidenav {
+                width: 40%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
+    <div class="main">
+        <div class="col-md-6 col-sm-12">
+            <div th:if="${#request.getParameter('fail') == 'username-email'}" class="alert alert-info mt-5">
+                Username or email already exists
+            </div>
+            <div th:if="${#request.getParameter('fail') == 'password'}" class="alert alert-info mt-5">
+                Passwords don't match
+            </div>
+            <div class="login-form p-200" style="padding-top: 20px">
+                <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                    <div class="form-group inputDiv">
+                        <label>Username</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Username"
+                                th:field="*{username}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></p>
+                    <div class="form-group inputDiv">
+                        <label>Email</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Email"
+                                th:field="*{email}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
+                    <div class="form-group inputDiv">
+                        <label>Password</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Password"
+                                th:field="*{password}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
+                    <div class="form-group inputDiv">
+                        <label>Repeat Password</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Repeat Password"
+                                th:field="*{repeatPassword}">
+
+                    </div>
+                    <p th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger" th:errors="*{repeatPassword}"></p>
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            <button type="submit" value="Log in" class="btn btn-dark custom-width">Register</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-center">
+                        <div class="mb-3">
+                            Already have an account? <a th:href="@{/login}" class="text-decoration-none">Login
+                            here!</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</html>
