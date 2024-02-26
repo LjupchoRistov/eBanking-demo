@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+  <!-- Page Content-->
+  <section layout:fragment="body" class="py-5">
+    <div class="container px-5 my-5">
+      <div class="text-center mb-5">
+        <h1 class="fw-bolder">All registered users</h1>
+      </div>
+      <div th:each="user : ${users}" class="col-lg-6 mb-4" style="height: 110px;
+             max-width: 300px;
+             min-width: 150px;
+             padding: 10px;
+             border-style: solid;
+                border-radius: 5px;
+                border-width: 1px;
+                border-color: rgba(119, 136, 153, 0.62);
+                background: rgba(119, 136, 153, 0.52);
+             ">
+        <div class="position-relative mb-3">
+          <a>Username: </a>
+          <a th:text="${user.username}"
+             class="fw-bolder text-decoration-none link-dark stretched-link"></a>
+        </div>
+        <div class="position-relative">
+          <div class="d-inline-block">
+            <a class="btn btn-dark" th:href="@{/users/{userId}/roles(userId=${user.id})}">View Roles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
