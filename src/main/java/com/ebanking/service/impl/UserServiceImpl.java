@@ -1,12 +1,11 @@
-package com.example.racepulse.service.impl;
+package com.ebanking.service.impl;
 
-
-import com.example.racepulse.dto.RegistrationDto;
-import com.example.racepulse.models.Role;
-import com.example.racepulse.models.UserEntity;
-import com.example.racepulse.repository.RoleRepository;
-import com.example.racepulse.repository.UserRepository;
-import com.example.racepulse.service.UserService;
+import com.ebanking.dto.RegistrationDto;
+import com.ebanking.models.Role;
+import com.ebanking.models.UserEntity;
+import com.ebanking.repository.RoleRepository;
+import com.ebanking.repository.UserRepository;
+import com.ebanking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

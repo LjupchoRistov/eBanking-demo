@@ -1,4 +1,4 @@
-package com.example.racepulse.dto;
+package com.ebanking.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

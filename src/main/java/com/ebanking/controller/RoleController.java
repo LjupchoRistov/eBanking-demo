@@ -1,12 +1,11 @@
 package com.ebanking.controller;
 
-import com.example.racepulse.models.Role;
-import com.example.racepulse.models.UserEntity;
-import com.example.racepulse.security.SecurityUtil;
-import com.example.racepulse.service.RoleService;
-import com.example.racepulse.service.UserService;
-import org.apache.catalina.User;
-import org.springframework.security.core.parameters.P;
+import com.ebanking.models.Role;
+import com.ebanking.models.UserEntity;
+import com.ebanking.security.SecurityUtil;
+import com.ebanking.service.RoleService;
+import com.ebanking.service.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

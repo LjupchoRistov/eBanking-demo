@@ -1,7 +1,7 @@
-package com.example.racepulse.mapper;
+package com.ebanking.mapper;
 
-import com.example.racepulse.dto.RegistrationDto;
-import com.example.racepulse.models.UserEntity;
+import com.ebanking.dto.RegistrationDto;
+import com.ebanking.models.UserEntity;
 
 public class UserMapper {
     public static RegistrationDto mapToRegistrationDto(UserEntity user){

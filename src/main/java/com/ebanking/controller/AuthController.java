@@ -1,8 +1,9 @@
 package com.ebanking.controller;
 
-import com.example.racepulse.dto.RegistrationDto;
-import com.example.racepulse.models.UserEntity;
-import com.example.racepulse.service.UserService;
+import com.ebanking.dto.RegistrationDto;
+import com.ebanking.models.UserEntity;
+import com.ebanking.service.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.example.racepulse.validator.EmailValidator.*;
-import static com.example.racepulse.validator.PasswordValidator.*;
+import static com.ebanking.validator.EmailValidator.isValidEmail;
+import static com.ebanking.validator.PasswordValidator.isValidPassword;
+
 
 @Controller
 public class AuthController {
-    private UserService userService;
+
+    private final UserService userService;
 
     public AuthController(UserService userService) {
         this.userService = userService;

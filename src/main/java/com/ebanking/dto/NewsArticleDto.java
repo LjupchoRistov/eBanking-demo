@@ -1,6 +1,6 @@
-package com.example.racepulse.dto;
+package com.ebanking.dto;
 
-import com.example.racepulse.models.UserEntity;
+import com.ebanking.models.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

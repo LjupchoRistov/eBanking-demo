@@ -1,4 +1,4 @@
-package com.example.racepulse.validator;
+package com.ebanking.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
