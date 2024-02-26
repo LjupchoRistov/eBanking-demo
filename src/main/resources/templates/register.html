@@ -89,6 +89,16 @@
                                 th:field="*{repeatPassword}">
 
                     </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <label>VERIFY</label>
+                        </div>
+                        <div class="col-4">
+                            <div class="g-recaptcha"
+                                 data-sitekey="6LcvWYApAAAAAGYyzgKdu6_hs8UGdsQwZsW-0lDU">
+                            </div>
+                        </div>
+                    </div>
                     <p th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger" th:errors="*{repeatPassword}"></p>
                     <div class="d-flex justify-content-center">
                         <div class="mb-3">

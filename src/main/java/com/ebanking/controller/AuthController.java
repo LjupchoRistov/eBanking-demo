@@ -4,6 +4,7 @@ import com.ebanking.dto.RegistrationDto;
 import com.ebanking.models.UserEntity;
 import com.ebanking.service.UserService;
 
+import com.ebanking.service.impl.RecaptchaResponseServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,10 +22,11 @@ import static com.ebanking.validator.PasswordValidator.isValidPassword;
 
 @Controller
 public class AuthController {
-
+   private  final RecaptchaResponseServiceImpl validator;
     private final UserService userService;
 
-    public AuthController(UserService userService) {
+    public AuthController(RecaptchaResponseServiceImpl validator, UserService userService) {
+        this.validator = validator;
         this.userService = userService;
     }
 
@@ -43,8 +45,7 @@ public class AuthController {
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user") RegistrationDto user,
                            BindingResult result,
-                           Model model,
-                           HttpServletRequest request) {
+                           Model model, @RequestParam(name="g-recaptcha-response") String captcha, HttpServletRequest request ) {
 
         //todo: check if username or email is present
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());
@@ -81,6 +82,10 @@ public class AuthController {
 
         if (result.hasErrors()) {
             model.addAttribute("user", user);
+            return "register";
+        }
+        if(!validator.validateCaptcha(captcha)){
+            model.addAttribute("message", "Please Verify Captcha");
             return "register";
         }
 
