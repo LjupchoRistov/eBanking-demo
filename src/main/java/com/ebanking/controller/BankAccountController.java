@@ -22,7 +22,7 @@ public class BankAccountController {
         this.userService = userService;
     }
 
-    @GetMapping("/account")
+    @GetMapping("/user/accounts")
     public String getUserBankAccount(Model model){
         String username = SecurityUtil.getSessionUser();
         UserEntity user = this.userService.findByUsername(username);
