@@ -33,4 +33,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         return bankAccounts.stream().map(BankAccountMapper::mapToBankAccountDto).collect(Collectors.toList());
     }
+
+    @Override
+    public BankAccountDto findBankAccountById(Long id) {
+        return this.bankAccountRepository.findById(id).map(BankAccountMapper::mapToBankAccountDto).get();
+    }
 }

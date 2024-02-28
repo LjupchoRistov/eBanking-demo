@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
     List<BankAccount> findAllByUserEquals(UserEntity user);
+    BankAccount findByAccountNumEquals(Integer accountNum);
 }

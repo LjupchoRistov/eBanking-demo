@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface BankAccountService {
     List<BankAccountDto> findBankAccountsByUser(UserEntity user);
+
+    BankAccountDto findBankAccountById(Long id);
 }

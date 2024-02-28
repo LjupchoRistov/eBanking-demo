@@ -11,6 +11,8 @@ public class BankAccountMapper {
                 .accountNum(bankAccountDto.getAccountNum())
                 .isDebit(bankAccountDto.getIsDebit())
                 .amount(bankAccountDto.getAmount())
+                .currencyType(bankAccountDto.getCurrencyType())
+                .dateCreatedOn(bankAccountDto.getDateCreatedOn())
                 .user(bankAccountDto.getUser())
                 .build();
     }
@@ -21,6 +23,8 @@ public class BankAccountMapper {
                 .accountNum(bankAccount.getAccountNum())
                 .isDebit(bankAccount.getIsDebit())
                 .amount(bankAccount.getAmount())
+                .currencyType(bankAccount.getCurrencyType())
+                .dateCreatedOn(bankAccount.getDateCreatedOn())
                 .user(bankAccount.getUser())
                 .build();
     }

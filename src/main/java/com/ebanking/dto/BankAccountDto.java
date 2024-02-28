@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -16,6 +17,6 @@ public class BankAccountDto {
     private Boolean isDebit;
     private Long amount;
     private UserEntity user;
-    private Date dateCreatedOn;
+    private LocalDateTime dateCreatedOn;
     private CType currencyType;
 }

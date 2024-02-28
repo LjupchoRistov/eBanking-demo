@@ -37,6 +37,14 @@
         border-bottom-width: 1px;
         border-bottom-color: rgba(119, 136, 153, 0.62);
     }
+
+    .given{
+        background-color: rgba(240, 128, 128, 0.5);
+    }
+
+    .received{
+        background-color: rgba(144, 238, 144, 0.5);
+    }
 </style>
 <div class="body-container container-fluid mt-5 h-100">
     <div class="row justify-content-center">
@@ -93,32 +101,29 @@
                     <table id="datatablesSimple" class="w-100">
                         <thead>
                         <tr>
-                            <th class="cell_big">Account Number</th>
-                            <th class="cell_big">Currency</th>
-                            <th class="cell_small">Amount</th>
-                            <th class="cell_small">Date Created</th>
-                            <th class="cell_small"></th>
+                            <th class="cell_big">From</th>
+                            <th class="cell_big">To</th>
+                            <th class="cell_big">Amount</th>
+                            <th class="cell_big">Currency Type</th>
+                            <th class="cell_big">Date of Transfer</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="account : ${accounts}" style="cursor: pointer; margin-bottom: 5px;"
-                            onmouseover="this.style.backgroundColor='rgba(119,136,153,0.44)'"
-                            onmouseout="this.style.backgroundColor=''">
-                            <td class="cell_big" th:text="${account.getAccountNum()}">Account Number</td>
-                            <td class="cell_big" th:text="${account.getCurrencyType().name()}">Currency Type</td>
-                            <td class="cell_small" th:text="${account.getAmount()}">Amount</td>
-                            <td class="cell_small">
+                        <tr th:each="t : ${transactions}" style="cursor: pointer; margin-bottom: 5px;"
+                            th:class="${t.receiver.getId().equals(account.getId())} ? 'received' : 'given'"
+                        >
+                            <td class="cell_big" th:text="${t.getSender().getAccountNum()}">From</td>
+                            <td class="cell_big" th:text="${t.getReceiver().getAccountNum()}">To</td>
+                            <td class="cell_big" th:text="${t.getAmount()}">Amount</td>
+                            <td class="cell_big" th:text="${t.getCurrencyTypeSender()}">Currency Type</td>
+                            <td class="cell_big">
                                 <span th:text="${account.getDateCreatedOn().getYear()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getMonthValue()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getDayOfMonth()}"></span>
                             </td>
-                            <td class="cell_small">
-                                <a th:href="@{'/user/{id}/account'(id=${account.getId()})}">More -></a>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Date;
 
@@ -24,7 +25,9 @@ import java.util.Date;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    private String Description;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -35,8 +38,9 @@ public class Transaction {
     private BankAccount receiver;
 
     private Long amount;
+    @Enumerated(EnumType.STRING)
     private CType currencyTypeSender;
 
     @CreationTimestamp
-    private Date transactionDate;
+    private LocalDateTime transactionDate;
 }
