@@ -1,23 +1,23 @@
 package com.ebanking.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@Entity(name = "roles")
+@Entity(name = "currency_type")
 @Table
-public class Role {
+public class CurrencyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private List<UserEntity> users = new ArrayList<>();
+    // Relative to Macedonian Denar
+    private Float value;
 }

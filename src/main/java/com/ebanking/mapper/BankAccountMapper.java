@@ -3,6 +3,7 @@ package com.ebanking.mapper;
 import com.ebanking.dto.BankAccountDto;
 import com.ebanking.models.BankAccount;
 
+import static com.ebanking.mapper.CurrencyTypeMapper.*;
 
 public class BankAccountMapper {
     public static BankAccount mapToBankAccount(BankAccountDto bankAccountDto){
@@ -11,7 +12,7 @@ public class BankAccountMapper {
                 .accountNum(bankAccountDto.getAccountNum())
                 .isDebit(bankAccountDto.getIsDebit())
                 .amount(bankAccountDto.getAmount())
-                .currencyType(bankAccountDto.getCurrencyType())
+                .currencyType(mapToCurrencyType(bankAccountDto.getCurrencyTypeDto()))
                 .dateCreatedOn(bankAccountDto.getDateCreatedOn())
                 .user(bankAccountDto.getUser())
                 .build();
@@ -23,7 +24,7 @@ public class BankAccountMapper {
                 .accountNum(bankAccount.getAccountNum())
                 .isDebit(bankAccount.getIsDebit())
                 .amount(bankAccount.getAmount())
-                .currencyType(bankAccount.getCurrencyType())
+                .currencyTypeDto(mapToCurrencyTypeDto(bankAccount.getCurrencyType()))
                 .dateCreatedOn(bankAccount.getDateCreatedOn())
                 .user(bankAccount.getUser())
                 .build();

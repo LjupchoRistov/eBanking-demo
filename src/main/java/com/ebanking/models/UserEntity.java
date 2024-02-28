@@ -20,6 +20,9 @@ public class UserEntity {
     private Long id;
     private String username;
     private String email;
+    private String name;
+    private String surname;
+    private String address;
     private String hashedPassword;
     private String salt;
 

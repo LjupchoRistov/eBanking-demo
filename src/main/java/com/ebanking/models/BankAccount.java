@@ -1,6 +1,5 @@
 package com.ebanking.models;
 
-import com.ebanking.models.enums.CType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,18 +16,22 @@ import java.util.Date;
 @Data
 @Builder
 @Table
-@Entity(name = "BankAccount")
+@Entity(name = "bank_account")
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // Number must contain 15 digits
+    // 300 for country code
     private Integer accountNum;
     private Boolean isDebit;
     private Long amount;
     @CreationTimestamp
     private LocalDateTime dateCreatedOn;
-    @Enumerated(EnumType.STRING)
-    private CType currencyType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id")
+    private CurrencyType currencyType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

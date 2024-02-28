@@ -89,13 +89,42 @@
                                 th:field="*{repeatPassword}">
 
                     </div>
+                    <hr>
+                    <div class="form-group inputDiv">
+                        <label>Name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Name"
+                                th:field="*{name}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+                    <div class="form-group inputDiv">
+                        <label>Surname</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Surname"
+                                th:field="*{surname}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('surname')}" class="text-danger" th:errors="*{surname}"></p>
+                    <div class="form-group inputDiv">
+                        <label>Address</label>
+                        <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Address"
+                                th:field="*{address}">
+                    </div>
+                    <p th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></p>
+                    <hr>
                     <div class="row">
                         <div class="col-2">
                             <label>VERIFY</label>
                         </div>
                         <div class="col-4">
                             <div class="g-recaptcha"
-                                 data-sitekey="6LcvWYApAAAAAGYyzgKdu6_hs8UGdsQwZsW-0lDU">
+                                 data-sitekey="6LdLuoMpAAAAAI0T__g4CrB-SUOgoQrZsY9aJnmJ">
                             </div>
                         </div>
                     </div>

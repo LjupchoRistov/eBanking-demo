@@ -9,6 +9,9 @@ public class UserMapper {
                 .id(user.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
+                .name(user.getName())
+                .surname(user.getSurname())
+                .address(user.getAddress())
                 .password(user.getHashedPassword())
                 .build();
     }

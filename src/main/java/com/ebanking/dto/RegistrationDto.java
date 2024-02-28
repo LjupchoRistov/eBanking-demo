@@ -17,6 +17,12 @@ public class RegistrationDto {
     private String username;
     @NotEmpty(message = "Email cannot be empty!")
     private String email;
+    @NotEmpty(message = "Name cannot be empty!")
+    private String name;
+    @NotEmpty(message = "Surname cannot be empty!")
+    private String surname;
+    @NotEmpty(message = "Address cannot be empty!")
+    private String address;
     @NotEmpty(message = "Password cannot be empty!")
     private String password;
     private String repeatPassword;

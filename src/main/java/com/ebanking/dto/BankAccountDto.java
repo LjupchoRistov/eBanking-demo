@@ -1,9 +1,10 @@
 package com.ebanking.dto;
 
+import com.ebanking.models.CurrencyType;
 import com.ebanking.models.UserEntity;
-import com.ebanking.models.enums.CType;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class BankAccountDto {
     private Integer accountNum;
     private Boolean isDebit;
     private Long amount;
-    private UserEntity user;
     private LocalDateTime dateCreatedOn;
-    private CType currencyType;
+    private CurrencyTypeDto currencyTypeDto;
+    private UserEntity user;
 }

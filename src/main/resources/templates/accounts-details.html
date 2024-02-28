@@ -115,7 +115,7 @@
                             <td class="cell_big" th:text="${t.getSender().getAccountNum()}">From</td>
                             <td class="cell_big" th:text="${t.getReceiver().getAccountNum()}">To</td>
                             <td class="cell_big" th:text="${t.getAmount()}">Amount</td>
-                            <td class="cell_big" th:text="${t.getCurrencyTypeSender()}">Currency Type</td>
+                            <td class="cell_big" th:text="${t.getCurrencyTypeSender().getName()}">Currency Type</td>
                             <td class="cell_big">
                                 <span th:text="${account.getDateCreatedOn().getYear()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getMonthValue()}"></span>-<span

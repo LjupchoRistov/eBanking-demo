@@ -105,7 +105,7 @@
                             onmouseover="this.style.backgroundColor='rgba(119,136,153,0.44)'"
                             onmouseout="this.style.backgroundColor=''">
                             <td class="cell_big" th:text="${account.getAccountNum()}">Account Number</td>
-                            <td class="cell_big" th:text="${account.getCurrencyType().name()}">Currency Type</td>
+                            <td class="cell_big" th:text="${account.getCurrencyTypeDto().getName()}">Currency Type</td>
                             <td class="cell_small" th:text="${account.getAmount()}">Amount</td>
                             <td class="cell_small">
                                 <span th:text="${account.getDateCreatedOn().getYear()}"></span>-<span
@@ -118,7 +118,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    <
                 </div>
             </div>
         </div>

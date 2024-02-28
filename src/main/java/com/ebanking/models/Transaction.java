@@ -1,12 +1,10 @@
 package com.ebanking.models;
 
-import com.ebanking.models.enums.CType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.type.CurrencyType;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -21,7 +19,7 @@ import java.util.Date;
 @Data
 @Builder
 @Table
-@Entity(name = "Transaction")
+@Entity(name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +27,19 @@ public class Transaction {
 
     private String Description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private BankAccount sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private BankAccount receiver;
 
     private Long amount;
-    @Enumerated(EnumType.STRING)
-    private CType currencyTypeSender;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id")
+    private CurrencyType currencyTypeSender;
 
     @CreationTimestamp
     private LocalDateTime transactionDate;
