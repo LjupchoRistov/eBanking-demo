@@ -1,5 +1,8 @@
+todo za MATEJ:
+- da napravish dodavanje na smetka
+- da go zmenish amount vo Double od model, dto, mapper, i na dr mesto.
+
+
+
 todo:
-- sertifikat
-- google login
-- capcha
-- modeli
+- da se stavi pin posle registracija da se dodade, i na sekoj pristap do smetka da se bara pin.

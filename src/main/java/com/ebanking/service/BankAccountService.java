@@ -9,4 +9,5 @@ public interface BankAccountService {
     List<BankAccountDto> findBankAccountsByUser(UserEntity user);
 
     BankAccountDto findBankAccountById(Long id);
+    BankAccountDto createBankAccount(Long id);
 }
