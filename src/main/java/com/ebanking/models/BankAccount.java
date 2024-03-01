@@ -25,7 +25,7 @@ public class BankAccount {
     // 300 for country code
     private Integer accountNum;
     private Boolean isDebit;
-    private Long amount;
+    private Double balance;
     @CreationTimestamp
     private LocalDateTime dateCreatedOn;
 
@@ -36,4 +36,17 @@ public class BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    public boolean canSubstractAmount(Double amount){
+        return this.balance - amount > 0;
+    }
+
+    public void substractAmount(Double amount) {
+        this.balance = this.balance - amount;
+    }
+
+    public void addAmount(Double amount) {
+        this.balance = this.balance + amount;
+    }
 }
+

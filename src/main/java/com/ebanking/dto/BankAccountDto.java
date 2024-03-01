@@ -16,7 +16,7 @@ public class BankAccountDto {
     private Long id;
     private Integer accountNum;
     private Boolean isDebit;
-    private Long amount;
+    private Double balance;
     private LocalDateTime dateCreatedOn;
     private CurrencyTypeDto currencyTypeDto;
     private UserEntity user;

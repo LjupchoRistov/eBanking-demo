@@ -2,14 +2,11 @@ package com.ebanking.data;
 
 import com.ebanking.models.*;
 import com.ebanking.repository.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -57,20 +54,20 @@ public class BankDataInit {
         if (this.bankAccountRepository.findAll().isEmpty()){
             UserEntity user = this.userRepository.findAll().get(0);
             CurrencyType currencyType = this.currencyTypeRepository.findByNameEquals("Macedonian Denar");
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111111, true, (long)10000, LocalDateTime.now(), currencyType, user));
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111112, true, (long)18000, LocalDateTime.now(), currencyType, user));
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111113, true, (long)340000, LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111111, true, (double)10000, LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111112, true, (double)18000, LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111113, true, (double)340000, LocalDateTime.now(), currencyType, user));
         }
 
         if (this.transactionRepository.findAll().isEmpty()){
             BankAccount bankAccount1 = this.bankAccountRepository.findByAccountNumEquals(1111111111);
             BankAccount bankAccount2 = this.bankAccountRepository.findByAccountNumEquals(1111111112);
             CurrencyType currencyType = this.currencyTypeRepository.findByNameEquals("Macedonian Denar");
-            this.transactionRepository.save(new Transaction((long) 999, "Shopping", bankAccount1, bankAccount2, (long)900, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "New Computer", bankAccount1, bankAccount2, (long)45000, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "For Dinner", bankAccount2, bankAccount1, (long)1100, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "Ice Cream", bankAccount1, bankAccount2, (long)200, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "For New Keyboard", bankAccount2, bankAccount1, (long)1600, currencyType, LocalDateTime.now()));
+            this.transactionRepository.save(new Transaction((long) 999, "Shopping", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
+            this.transactionRepository.save(new Transaction((long) 999, "New Computer", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
+            this.transactionRepository.save(new Transaction((long) 999, "For Dinner", bankAccount2, bankAccount1, currencyType, LocalDateTime.now()));
+            this.transactionRepository.save(new Transaction((long) 999, "Ice Cream", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
+            this.transactionRepository.save(new Transaction((long) 999, "For New Keyboard", bankAccount2, bankAccount1, currencyType, LocalDateTime.now()));
         }
     }
 }

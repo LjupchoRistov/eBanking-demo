@@ -2,6 +2,7 @@ package com.ebanking.controller;
 
 import com.ebanking.dto.BankAccountDto;
 import com.ebanking.dto.CurrencyTypeDto;
+import com.ebanking.dto.TransactionDto;
 import com.ebanking.service.BankAccountService;
 import com.ebanking.service.TransactionService;
 import com.ebanking.service.UserService;
@@ -31,8 +32,8 @@ public class TransactionController {
             @RequestParam String amount,
             Model model
     ) {
+        TransactionDto transaction = this.transactionService.createTransaction(senderNum, receiverNum, currencyTypeSenderId, description, amount);
 
-
-        return null;
+        return "redirect:/user/accounts";
     }
 }

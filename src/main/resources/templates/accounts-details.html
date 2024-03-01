@@ -15,6 +15,7 @@
 <style>
     .body-container{
         width: 1000px;
+        height: 3000px;
         margin: 0 auto;
         border-left-style: solid;
         border-left-width: 2px;
@@ -46,7 +47,7 @@
         background-color: rgba(144, 238, 144, 0.5);
     }
 </style>
-<div class="body-container container-fluid mt-5 h-100">
+<div class="body-container container-fluid mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <h1 class="mt-4">Dashboard</h1>
@@ -133,7 +134,7 @@
                 </h4>
                 <form th:method="POST" th:action="@{/transaction/new}" class="mt-3">
                     <!-- Hidden input fields for sender details -->
-                    <input type="hidden" name="sender" th:value="${account.getAccountNum()()}">
+                    <input type="hidden" name="sender" th:value="${account.getAccountNum()}">
                     <input type="hidden" name="currencyTypeSender" th:value="${account.getCurrencyTypeDto().getId()}">
                     <div class="form-group mb-3">
                         <label class="mb-2" for="receiver">Receiver Bank Account No. :</label>

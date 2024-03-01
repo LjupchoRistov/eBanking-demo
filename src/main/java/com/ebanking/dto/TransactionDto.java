@@ -16,7 +16,7 @@ public class TransactionDto {
     private String Description;
     private BankAccount sender;
     private BankAccount receiver;
-    private Long amount;
+    private Double amount;
     private CurrencyTypeDto currencyTypeSender;
     private LocalDateTime transactionDate;
 }

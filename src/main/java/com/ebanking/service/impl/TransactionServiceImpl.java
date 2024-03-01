@@ -53,10 +53,18 @@ public class TransactionServiceImpl implements TransactionService {
         CurrencyType currencyTypeReceiver = receiverAcc.getCurrencyType();
 
         double rate = (double) (currencyTypeSender.getValue() / currencyTypeReceiver.getValue());
-        Double amountToAdd = Double.parseDouble(amount) * rate;
+        Double convertedAmount = Double.parseDouble(amount) * rate;
 
-        this.transactionRepository.save(new Transaction((long) 999, description, senderAcc, receiverAcc, amountToAdd, currencyTypeReceiver, LocalDateTime.now()));
+        //todo: remove amount from sender balance
+        if (receiverAcc.canSubstractAmount(convertedAmount)) {
+            //todo: thows exception when there is not wnough money}
+        }
 
-        return null;
+        senderAcc.substractAmount(convertedAmount);
+        // add amount to receiver balance
+        senderAcc.addAmount(convertedAmount);
+        Transaction transaction = new Transaction((long) 999, description, senderAcc, receiverAcc, currencyTypeReceiver, LocalDateTime.now());
+
+        return mapToTransactionDto(this.transactionRepository.save(transaction));
     }
 }
