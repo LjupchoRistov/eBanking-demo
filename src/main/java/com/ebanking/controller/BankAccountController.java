@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,9 +46,17 @@ public class BankAccountController {
         BankAccountDto bankAccountDto = this.bankAccountService.findBankAccountById(id);
         model.addAttribute("account", bankAccountDto);
 
+        // Add the user of the acc
+        UserEntity user = bankAccountDto.getUser();
+        model.addAttribute("user", this.userService.findByUsername(user.getUsername()));
+
         // Add the Treansactions of the Bank Account
         List<TransactionDto> transactionDtoList = this.transactionService.findAllByBankAccount(bankAccountDto);
         model.addAttribute("transactions", transactionDtoList);
+
+        // Add TransactionDto template
+        TransactionDto transactionDto = new TransactionDto();
+        model.addAttribute("transaction", transactionDto);
 
         return "accounts-details";
     }

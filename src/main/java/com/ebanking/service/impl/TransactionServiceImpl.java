@@ -46,25 +46,40 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto createTransaction(String senderNum, String receiverNum, String currencyTypeSenderId, String description, String amount) {
-        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.parseInt(senderNum));
-        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.parseInt(receiverNum));
+    public TransactionDto createTransaction(TransactionDto transactionDto) {
+        BankAccount senderAcc = mapToBankAccount(transactionDto.getSender());
+        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver()));
+
         CurrencyType currencyTypeSender = senderAcc.getCurrencyType();
         CurrencyType currencyTypeReceiver = receiverAcc.getCurrencyType();
 
-        double rate = (double) (currencyTypeSender.getValue() / currencyTypeReceiver.getValue());
-        Double convertedAmount = Double.parseDouble(amount) * rate;
-
-        //todo: remove amount from sender balance
-        if (receiverAcc.canSubstractAmount(convertedAmount)) {
-            //todo: thows exception when there is not wnough money}
+        if (currencyTypeSender == null || currencyTypeReceiver == null) {
+            throw new IllegalArgumentException("Currency types are null for sender or receiver");
         }
 
-        senderAcc.substractAmount(convertedAmount);
-        // add amount to receiver balance
-        senderAcc.addAmount(convertedAmount);
-        Transaction transaction = new Transaction((long) 999, description, senderAcc, receiverAcc, currencyTypeReceiver, LocalDateTime.now());
+        // Calculate conversion rate
+        double amountDouble = Double.parseDouble(transactionDto.getAmount());
+        double rate = currencyTypeSender.getValue() / currencyTypeReceiver.getValue();
+        Double convertedAmount = amountDouble * rate;
 
+        // Deduct amount from sender's balance
+        if (!senderAcc.canSubstractAmount(convertedAmount)) {
+            // Handle the case where sender doesn't have enough balance, perhaps by throwing an exception or returning an error
+            // For now, let's throw an IllegalArgumentException
+            throw new IllegalArgumentException("Sender doesn't have enough balance");
+        }
+        senderAcc.substractAmount(convertedAmount);
+
+        // Add amount to receiver's balance
+        receiverAcc.addAmount(convertedAmount);
+
+        // Create and save the transaction
+        Transaction transaction = new Transaction();
+        transaction.setSender(senderAcc);
+        transaction.setReceiver(receiverAcc);
+        transaction.setCurrencyTypeSender(senderAcc.getCurrencyType());
+        transaction.setAmount(amountDouble);
+        transaction.setDescription(transactionDto.getDescription());
         return mapToTransactionDto(this.transactionRepository.save(transaction));
     }
 }

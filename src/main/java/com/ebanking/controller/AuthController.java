@@ -45,7 +45,8 @@ public class AuthController {
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user") RegistrationDto user,
                            BindingResult result,
-                           Model model, @RequestParam(name="g-recaptcha-response") String captcha, HttpServletRequest request ) {
+                           Model model,
+                           @RequestParam(name="g-recaptcha-response") String captcha) {
 
         //todo: check if username or email is present
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());

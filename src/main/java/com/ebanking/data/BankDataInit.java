@@ -63,11 +63,11 @@ public class BankDataInit {
             BankAccount bankAccount1 = this.bankAccountRepository.findByAccountNumEquals(1111111111);
             BankAccount bankAccount2 = this.bankAccountRepository.findByAccountNumEquals(1111111112);
             CurrencyType currencyType = this.currencyTypeRepository.findByNameEquals("Macedonian Denar");
-            this.transactionRepository.save(new Transaction((long) 999, "Shopping", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "New Computer", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "For Dinner", bankAccount2, bankAccount1, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "Ice Cream", bankAccount1, bankAccount2, currencyType, LocalDateTime.now()));
-            this.transactionRepository.save(new Transaction((long) 999, "For New Keyboard", bankAccount2, bankAccount1, currencyType, LocalDateTime.now()));
+//            this.transactionRepository.save(new Transaction((long) 999, "Shopping", bankAccount1, bankAccount2, currencyType, (double) 1500, LocalDateTime.now()));
+//            this.transactionRepository.save(new Transaction((long) 999, "New Computer", bankAccount1, bankAccount2, currencyType, (double) 65000, LocalDateTime.now()));
+//            this.transactionRepository.save(new Transaction((long) 999, "For Dinner", bankAccount2, bankAccount1, currencyType, (double) 2500, LocalDateTime.now()));
+//            this.transactionRepository.save(new Transaction((long) 999, "Ice Cream", bankAccount1, bankAccount2, currencyType, (double) 50, LocalDateTime.now()));
+//            this.transactionRepository.save(new Transaction((long) 999, "For New Keyboard", bankAccount2, bankAccount1, currencyType, (double) 5500, LocalDateTime.now()));
         }
     }
 }
