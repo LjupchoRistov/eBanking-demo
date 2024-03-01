@@ -56,6 +56,8 @@ public class BankAccountController {
 
         // Add TransactionDto template
         TransactionDto transactionDto = new TransactionDto();
+        transactionDto.setSender(String.valueOf(bankAccountDto.getAccountNum()));
+        transactionDto.setCurrencyTypeSender(bankAccountDto.getCurrencyTypeDto().getName());
         model.addAttribute("transaction", transactionDto);
 
         return "accounts-details";

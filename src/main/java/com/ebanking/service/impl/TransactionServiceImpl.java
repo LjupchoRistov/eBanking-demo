@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDto createTransaction(TransactionDto transactionDto) {
-        BankAccount senderAcc = mapToBankAccount(transactionDto.getSender());
+        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getSender()));
         BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver()));
 
         CurrencyType currencyTypeSender = senderAcc.getCurrencyType();
@@ -64,8 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         // Deduct amount from sender's balance
         if (!senderAcc.canSubstractAmount(convertedAmount)) {
-            // Handle the case where sender doesn't have enough balance, perhaps by throwing an exception or returning an error
-            // For now, let's throw an IllegalArgumentException
+            //todo: Dont allow transaction if balance below amount
             throw new IllegalArgumentException("Sender doesn't have enough balance");
         }
         senderAcc.substractAmount(convertedAmount);

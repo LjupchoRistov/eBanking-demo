@@ -45,8 +45,13 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public BankAccountDto createBankAccount(Long id) {
         UserEntity user = this.userRepository.findById(id).get();
-        // generate account number
+        // todo: generate account number
 
         return null;
+    }
+
+    @Override
+    public BankAccountDto findBankAccountByNumber(String sender) {
+        return mapToBankAccountDto(this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(sender)));
     }
 }

@@ -10,4 +10,5 @@ public interface BankAccountService {
 
     BankAccountDto findBankAccountById(Long id);
     BankAccountDto createBankAccount(Long id);
+    BankAccountDto findBankAccountByNumber(String sender);
 }

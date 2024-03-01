@@ -117,10 +117,10 @@
                         <tr th:each="t : ${transactions}" style="cursor: pointer; margin-bottom: 5px;"
                             th:class="${t.receiver.equals(account.getAccountNum().toString())} ? 'received' : 'given'"
                         >
-                            <td class="cell_big" th:text="${t.getSender().getAccountNum()}">From</td>
+                            <td class="cell_big" th:text="${t.getSender()}">From</td>
                             <td class="cell_big" th:text="${t.getReceiver()}">To</td>
                             <td class="cell_big" th:text="${t.getAmount()}">Amount</td>
-                            <td class="cell_big" th:text="${t.getCurrencyTypeSender().getName()}">Currency Type</td>
+                            <td class="cell_big" th:text="${t.getCurrencyTypeSender()}">Currency Type</td>
                             <td class="cell_big">
                                 <span th:text="${account.getDateCreatedOn().getYear()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getMonthValue()}"></span>-<span
@@ -139,9 +139,9 @@
                 <form th:method="post" th:action="@{/transaction/new}" th:object="${transaction}" class="mt-3">
                     <!-- Hidden input fields for sender details -->
                     <!-- Sender account num. -->
-                    <input type="hidden" th:field="*{sender}" th:value="${account}">
+                    <input type="hidden" th:field="*{sender}" th:value="${account.getAccountNum()}">
                     <!-- Sender account currency -->
-                    <input type="hidden" th:field="*{currencyTypeSender}" th:value="${account.getCurrencyTypeDto()}">
+                    <input type="hidden" th:field="*{currencyTypeSender}" th:value="${account.getCurrencyTypeDto().getName()}">
                     <!-- Receiver account num. -->
                     <div class="form-group mb-3">
                         <label class="mb-2" for="receiverNum">Receiver Bank Account No. :</label>
@@ -151,7 +151,6 @@
                                id="receiverNum"
                                th:field="*{receiver}"
                                required>
-                        <p th:if="${#fields.hasErrors('receiver')}" class="text-danger" th:errors="*{receiver}"></p>
                     </div>
                     <!-- Description -->
                     <div class="form-group mb-3">
@@ -162,7 +161,6 @@
                                id="description"
                                th:field="*{description}"
                                required>
-                        <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="*{description}"></p>
                     </div>
                     <div class="form-group mb-3">
                         <label class="mb-2" for="amount">Amount:</label>
@@ -172,7 +170,6 @@
                                id="amount"
                                th:field="*{amount}"
                                required>
-                        <p th:if="${#fields.hasErrors('amount')}" class="text-danger" th:errors="*{amount}"></p>
                     </div>
                     <button type="submit" class="btn btn-primary">Transfer</button>
                 </form>

@@ -35,6 +35,7 @@ public class TransactionController {
                                     Model model) {
         this.transactionService.createTransaction(transactionDto);
 
-        return null;
+        BankAccountDto bankAccountDto = this.bankAccountService.findBankAccountByNumber(transactionDto.getSender());
+        return "redirect:/user/" + bankAccountDto.getId() + "/account";
     }
 }
