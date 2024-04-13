@@ -9,17 +9,15 @@ import com.ebanking.models.Transaction;
 import com.ebanking.repository.BankAccountRepository;
 import com.ebanking.repository.CurrencyTypeRepository;
 import com.ebanking.repository.TransactionRepository;
-import com.ebanking.repository.UserRepository;
 import com.ebanking.service.TransactionService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ebanking.mapper.BankAccountMapper.*;
-import static com.ebanking.mapper.TransactionMappper.*;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -46,16 +44,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto createTransaction(TransactionDto transactionDto) {
+    @Transactional
+    public String createTransaction(TransactionDto transactionDto) {
         BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getSender()));
         BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver()));
 
         CurrencyType currencyTypeSender = senderAcc.getCurrencyType();
         CurrencyType currencyTypeReceiver = receiverAcc.getCurrencyType();
-
-        if (currencyTypeSender == null || currencyTypeReceiver == null) {
-            throw new IllegalArgumentException("Currency types are null for sender or receiver");
-        }
 
         // Calculate conversion rate
         double amountDouble = Double.parseDouble(transactionDto.getAmount());
@@ -65,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
         // Deduct amount from sender's balance
         if (!senderAcc.canSubstractAmount(convertedAmount)) {
             //todo: Dont allow transaction if balance below amount
-            throw new IllegalArgumentException("Sender doesn't have enough balance");
+            return "Not enough balance to send!";
         }
         senderAcc.substractAmount(convertedAmount);
 
@@ -79,6 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setCurrencyTypeSender(senderAcc.getCurrencyType());
         transaction.setAmount(amountDouble);
         transaction.setDescription(transactionDto.getDescription());
-        return mapToTransactionDto(this.transactionRepository.save(transaction));
+
+        return "Success";
     }
 }

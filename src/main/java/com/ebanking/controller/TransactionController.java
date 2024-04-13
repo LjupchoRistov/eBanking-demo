@@ -30,12 +30,15 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction/new")
-    public String createTransaction(@Valid @ModelAttribute("transaction") TransactionDto transactionDto,
-                                    BindingResult result,
-                                    Model model) {
-        this.transactionService.createTransaction(transactionDto);
+    public String createTransaction(@Valid @ModelAttribute("transaction") TransactionDto transactionDto) {
+        String transactionValidation = this.transactionService.createTransaction(transactionDto);
 
         BankAccountDto bankAccountDto = this.bankAccountService.findBankAccountByNumber(transactionDto.getSender());
+
+        if (!transactionValidation.equalsIgnoreCase("Success")) {
+            return "redirect:/user/" + bankAccountDto.getId() + "/account?transactionValidation=failed";
+        }
+
         return "redirect:/user/" + bankAccountDto.getId() + "/account";
     }
 }

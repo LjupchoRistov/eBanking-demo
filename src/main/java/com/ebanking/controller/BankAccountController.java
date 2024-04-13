@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class BankAccountController {
 
     @GetMapping("/user/{id}/account")
     public String previewAccount(@PathVariable Long id,
+                                 @RequestParam(required = false) String transactionValidation,
                                  Model model){
 
         // Add the Bank Account to the model
@@ -59,6 +61,10 @@ public class BankAccountController {
         transactionDto.setSender(String.valueOf(bankAccountDto.getAccountNum()));
         transactionDto.setCurrencyTypeSender(bankAccountDto.getCurrencyTypeDto().getName());
         model.addAttribute("transaction", transactionDto);
+
+        if (transactionValidation == null || transactionValidation.isBlank())
+            model.addAttribute("transactionValidation", "OK");
+        else model.addAttribute("transactionValidation", transactionValidation);
 
         return "accounts-details";
     }
