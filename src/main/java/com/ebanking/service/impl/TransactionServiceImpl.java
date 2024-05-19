@@ -9,17 +9,15 @@ import com.ebanking.models.Transaction;
 import com.ebanking.repository.BankAccountRepository;
 import com.ebanking.repository.CurrencyTypeRepository;
 import com.ebanking.repository.TransactionRepository;
-import com.ebanking.repository.UserRepository;
 import com.ebanking.service.TransactionService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ebanking.mapper.BankAccountMapper.*;
-import static com.ebanking.mapper.TransactionMappper.*;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -46,25 +44,37 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto createTransaction(String senderNum, String receiverNum, String currencyTypeSenderId, String description, String amount) {
-        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.parseInt(senderNum));
-        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.parseInt(receiverNum));
+    @Transactional
+    public String createTransaction(TransactionDto transactionDto) {
+        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getSender()));
+        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver()));
+
         CurrencyType currencyTypeSender = senderAcc.getCurrencyType();
         CurrencyType currencyTypeReceiver = receiverAcc.getCurrencyType();
 
-        double rate = (double) (currencyTypeSender.getValue() / currencyTypeReceiver.getValue());
-        Double convertedAmount = Double.parseDouble(amount) * rate;
+        // Calculate conversion rate
+        double amountDouble = Double.parseDouble(transactionDto.getAmount());
+        double rate = currencyTypeSender.getValue() / currencyTypeReceiver.getValue();
+        Double convertedAmount = amountDouble * rate;
 
-        //todo: remove amount from sender balance
-        if (receiverAcc.canSubstractAmount(convertedAmount)) {
-            //todo: thows exception when there is not wnough money}
+        // Deduct amount from sender's balance
+        if (!senderAcc.canSubstractAmount(convertedAmount)) {
+            //todo: Dont allow transaction if balance below amount
+            return "Not enough balance to send!";
         }
-
         senderAcc.substractAmount(convertedAmount);
-        // add amount to receiver balance
-        senderAcc.addAmount(convertedAmount);
-        Transaction transaction = new Transaction((long) 999, description, senderAcc, receiverAcc, currencyTypeReceiver, LocalDateTime.now());
 
-        return mapToTransactionDto(this.transactionRepository.save(transaction));
+        // Add amount to receiver's balance
+        receiverAcc.addAmount(convertedAmount);
+
+        // Create and save the transaction
+        Transaction transaction = new Transaction();
+        transaction.setSender(senderAcc);
+        transaction.setReceiver(receiverAcc);
+        transaction.setCurrencyTypeSender(senderAcc.getCurrencyType());
+        transaction.setAmount(amountDouble);
+        transaction.setDescription(transactionDto.getDescription());
+
+        return "Success";
     }
 }

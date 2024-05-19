@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,32 +31,77 @@ public class BankAccountController {
 
     @GetMapping("/user/accounts")
     public String getUserBankAccount(Model model){
+        //todo: Implement dynamic real life user
         String username = "bubsi";
         UserEntity user = this.userService.findByUsername(username);
         List<BankAccountDto> accounts = this.bankAccountService.findBankAccountsByUser(user);
+ 
+        // Add user
+        model.addAttribute("user", user);
 
+        // Add user bank accounts
         model.addAttribute("accounts", accounts);
+
+        // Add bank account num
+        model.addAttribute("bankAccountNum", this.bankAccountService.activeBankAccounts(user));
+
+        // Add max bank account num
+        model.addAttribute("maxBankAccountNum", BankAccountService.MAX_BANK_ACCOUNTS);
 
         return "accounts-list";
     }
 
+    @GetMapping("/user/account/new")
+    public String createBankAccount(Model model){
+        //todo: Implement dynamic real life user
+        String username = "bubsi";
+        UserEntity user = this.userService.findByUsername(username);
+
+        // Add user
+        model.addAttribute("user", user);
+
+        // Add bank account num
+        model.addAttribute("bankAccountNum", this.bankAccountService.activeBankAccounts(user));
+
+        // Add max bank account num
+        model.addAttribute("maxBankAccountNum", BankAccountService.MAX_BANK_ACCOUNTS);
+
+        // Current date
+        model.addAttribute("date", LocalDateTime.now());
+
+        // BankAccount template
+        model.addAttribute("bankAccount", new BankAccountDto());
+
+        return "accounts-new";
+    }
+
     @GetMapping("/user/{id}/account")
     public String previewAccount(@PathVariable Long id,
+                                 @RequestParam(required = false) String transactionValidation,
                                  Model model){
 
         // Add the Bank Account to the model
         BankAccountDto bankAccountDto = this.bankAccountService.findBankAccountById(id);
         model.addAttribute("account", bankAccountDto);
 
+        // Add the user of the acc
+        UserEntity user = bankAccountDto.getUser();
+        model.addAttribute("user", this.userService.findByUsername(user.getUsername()));
+
         // Add the Treansactions of the Bank Account
         List<TransactionDto> transactionDtoList = this.transactionService.findAllByBankAccount(bankAccountDto);
         model.addAttribute("transactions", transactionDtoList);
 
-        return "accounts-details";
-    }
+        // Add TransactionDto template
+        TransactionDto transactionDto = new TransactionDto();
+        transactionDto.setSender(String.valueOf(bankAccountDto.getAccountNum()));
+        transactionDto.setCurrencyTypeSender(bankAccountDto.getCurrencyTypeDto().getName());
+        model.addAttribute("transaction", transactionDto);
 
-    @GetMapping("/layout")
-    public String layout(){
-        return "accounts-list";
+        if (transactionValidation == null || transactionValidation.isBlank())
+            model.addAttribute("transactionValidation", "OK");
+        else model.addAttribute("transactionValidation", transactionValidation);
+
+        return "accounts-details";
     }
 }

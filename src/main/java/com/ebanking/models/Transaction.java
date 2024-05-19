@@ -19,16 +19,6 @@ import java.time.LocalDateTime;
 @Table
 @Entity(name = "transaction")
 public class Transaction {
-    // Constructor with arguments
-    public Transaction(Long id, String description, BankAccount sender, BankAccount receiver, CurrencyType currencyTypeSender, LocalDateTime transactionDate) {
-        this.id = id;
-        this.Description = description;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.currencyTypeSender = currencyTypeSender;
-        this.transactionDate = transactionDate;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
