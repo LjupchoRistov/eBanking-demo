@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +31,48 @@ public class BankAccountController {
 
     @GetMapping("/user/accounts")
     public String getUserBankAccount(Model model){
+        //todo: Implement dynamic real life user
         String username = "bubsi";
         UserEntity user = this.userService.findByUsername(username);
         List<BankAccountDto> accounts = this.bankAccountService.findBankAccountsByUser(user);
+ 
+        // Add user
+        model.addAttribute("user", user);
 
+        // Add user bank accounts
         model.addAttribute("accounts", accounts);
 
+        // Add bank account num
+        model.addAttribute("bankAccountNum", this.bankAccountService.activeBankAccounts(user));
+
+        // Add max bank account num
+        model.addAttribute("maxBankAccountNum", BankAccountService.MAX_BANK_ACCOUNTS);
+
         return "accounts-list";
+    }
+
+    @GetMapping("/user/account/new")
+    public String createBankAccount(Model model){
+        //todo: Implement dynamic real life user
+        String username = "bubsi";
+        UserEntity user = this.userService.findByUsername(username);
+
+        // Add user
+        model.addAttribute("user", user);
+
+        // Add bank account num
+        model.addAttribute("bankAccountNum", this.bankAccountService.activeBankAccounts(user));
+
+        // Add max bank account num
+        model.addAttribute("maxBankAccountNum", BankAccountService.MAX_BANK_ACCOUNTS);
+
+        // Current date
+        model.addAttribute("date", LocalDateTime.now());
+
+        // BankAccount template
+        model.addAttribute("bankAccount", new BankAccountDto());
+
+        return "accounts-new";
     }
 
     @GetMapping("/user/{id}/account")
@@ -67,10 +103,5 @@ public class BankAccountController {
         else model.addAttribute("transactionValidation", transactionValidation);
 
         return "accounts-details";
-    }
-
-    @GetMapping("/layout")
-    public String layout(){
-        return "accounts-list";
     }
 }

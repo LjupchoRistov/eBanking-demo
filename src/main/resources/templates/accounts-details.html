@@ -90,15 +90,7 @@
                 <p>Bank account doesn't have enough balance to complete transaction!</p>
             </div>
         </div>
-        <div class="col-lg-10">
-            <div class="mt-4 d-inline-flex">
-                <label style="margin-right: 2px;">Account num:</label>
-                <h5 th:text="${account.getAccountNum()}"></h5>
-            </div>
-            <ol class="breadcrumb mb-4">
-                <li th:text="${user.getName()}" class="breadcrumb-item active"></li>
-                <li th:text="${user.getSurname()}" class="breadcrumb-item active"></li>
-            </ol>
+        <div class="col-lg-10 pt-4">
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-primary text-white mb-4">
@@ -137,11 +129,32 @@
                     </div>
                 </div>
             </div>
+            <div class="row mb-4">
+                <ol class="breadcrumb mb-4">
+                    <li th:text="${user.getName()}" class="breadcrumb-item active"></li>
+                    <li th:text="${user.getSurname()}" class="breadcrumb-item active"></li>
+                </ol>
+                <hr>
+                <div class="d-inline-flex">
+                    <h5>
+                        <span class="fw-light" >Account number: </span><span th:text="${account.getAccountNum()}"></span>
+                    </h5>
+                </div>
+                <div class="d-inline-flex">
+                    <h5>
+                        <span class="fw-light" >Account balance: </span>
+                        <span th:text="${account.getBalance()}"></span>
+                        <span class="fw-light">(</span>
+                        <span class="text-lowercase fw-light" th:text="${account.getCurrencyTypeDto().getName()}"></span>
+                        <span class="fw-light">)</span>
+                    </h5>
+                </div>
+            </div>
             <!-- User Accounts Display-->
             <div class="card mb-4" style="width: 100%;">
-                <div class="card-header">
+                <div class="card-header fst-italic fw-bold">
                     <i class="fas fa-table me-1"></i>
-                    Bank Accounts
+                    Transactions
                 </div>
                 <div class="card-body">
                     <table id="datatablesSimple" class="w-100">
@@ -173,47 +186,49 @@
                 </div>
             </div>
             <!-- Make New Transaction -->
-            <div class="card mb-4 p-4" style="width: 100%;">
-                <h4>
-                    New transaction
-                </h4>
-                <form th:method="post" th:action="@{/transaction/new}" th:object="${transaction}" class="mt-3">
-                    <!-- Hidden input fields for sender details -->
-                    <!-- Sender account num. -->
-                    <input type="hidden" th:field="*{sender}" th:value="${account.getAccountNum()}">
-                    <!-- Sender account currency -->
-                    <input type="hidden" th:field="*{currencyTypeSender}" th:value="${account.getCurrencyTypeDto().getName()}">
-                    <!-- Receiver account num. -->
-                    <div class="form-group mb-3">
-                        <label class="mb-2" for="receiverNum">Receiver Bank Account No. :</label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Bank Account No."
-                               id="receiverNum"
-                               th:field="*{receiver}"
-                               required>
-                    </div>
-                    <!-- Description -->
-                    <div class="form-group mb-3">
-                        <label class="mb-2" for="description">Description:</label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Description"
-                               id="description"
-                               th:field="*{description}"
-                               required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="mb-2" for="amount">Amount:</label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Amount"
-                               id="amount"
-                               th:field="*{amount}"
-                               required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Transfer</button>
-                </form>
+            <div class="card mb-4" style="width: 100%;">
+                <div class="card-header fst-italic fw-bold">
+                    New Transactions
+                </div>
+                <div class="card-body">
+                    <form th:method="post" th:action="@{/transaction/new}" th:object="${transaction}" class="mt-3">
+                        <!-- Hidden input fields for sender details -->
+                        <!-- Sender account num. -->
+                        <input type="hidden" th:field="*{sender}" th:value="${account.getAccountNum()}">
+                        <!-- Sender account currency -->
+                        <input type="hidden" th:field="*{currencyTypeSender}" th:value="${account.getCurrencyTypeDto().getName()}">
+                        <!-- Receiver account num. -->
+                        <div class="form-group mb-3">
+                            <label class="mb-2" for="receiverNum">Receiver Bank Account No. :</label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Bank Account No."
+                                   id="receiverNum"
+                                   th:field="*{receiver}"
+                                   required>
+                        </div>
+                        <!-- Description -->
+                        <div class="form-group mb-3">
+                            <label class="mb-2" for="description">Description:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Description"
+                                   id="description"
+                                   th:field="*{description}"
+                                   required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="mb-2" for="amount">Amount:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Amount"
+                                   id="amount"
+                                   th:field="*{amount}"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

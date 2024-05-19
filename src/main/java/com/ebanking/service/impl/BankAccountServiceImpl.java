@@ -22,7 +22,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
-    private static final AtomicLong counter = new AtomicLong(0);
+    private static final AtomicLong COUNTER = new AtomicLong(0);
 
     public BankAccountServiceImpl(BankAccountRepository bankAccountRepository, TransactionRepository transactionRepository, UserRepository userRepository) {
         this.bankAccountRepository = bankAccountRepository;
@@ -48,6 +48,18 @@ public class BankAccountServiceImpl implements BankAccountService {
         // todo: generate account number
 
         return null;
+    }
+
+    @Override
+    public Integer activeBankAccounts(UserEntity user){
+        //todo: change search with (EMBG)
+        return bankAccountRepository.findAllByUserEquals(user).size();
+    }
+
+    @Override
+    public Integer availableBankAccounts(UserEntity user){
+        //todo: change search with (EMBG)
+        return MAX_BANK_ACCOUNTS - bankAccountRepository.findAllByUserEquals(user).size();
     }
 
     @Override
