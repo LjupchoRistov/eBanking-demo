@@ -5,16 +5,21 @@ import com.ebanking.dto.TransactionDto;
 import com.ebanking.models.UserEntity;
 import com.ebanking.repository.TransactionRepository;
 import com.ebanking.service.BankAccountService;
+import com.ebanking.service.CurrencyTypeService;
 import com.ebanking.service.TransactionService;
 import com.ebanking.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -22,20 +27,22 @@ public class BankAccountController {
     private final BankAccountService bankAccountService;
     private final TransactionService transactionService;
     private final UserService userService;
+    private final CurrencyTypeService currencyTypeService;
 
-    public BankAccountController(BankAccountService bankAccountService, TransactionService transactionService, UserService userService) {
+    public BankAccountController(BankAccountService bankAccountService, TransactionService transactionService, UserService userService, CurrencyTypeService currencyTypeService) {
         this.bankAccountService = bankAccountService;
         this.transactionService = transactionService;
         this.userService = userService;
+        this.currencyTypeService = currencyTypeService;
     }
 
     @GetMapping("/user/accounts")
-    public String getUserBankAccount(Model model){
+    public String getUserBankAccount(Model model) {
         //todo: Implement dynamic real life user
         String username = "bubsi";
         UserEntity user = this.userService.findByUsername(username);
         List<BankAccountDto> accounts = this.bankAccountService.findBankAccountsByUser(user);
- 
+
         // Add user
         model.addAttribute("user", user);
 
@@ -51,8 +58,8 @@ public class BankAccountController {
         return "accounts-list";
     }
 
-    @GetMapping("/user/account/new")
-    public String createBankAccount(Model model){
+    @GetMapping("/user/account-new")
+    public String createBankAccount(Model model) {
         //todo: Implement dynamic real life user
         String username = "bubsi";
         UserEntity user = this.userService.findByUsername(username);
@@ -67,18 +74,27 @@ public class BankAccountController {
         model.addAttribute("maxBankAccountNum", BankAccountService.MAX_BANK_ACCOUNTS);
 
         // Current date
-        model.addAttribute("date", LocalDateTime.now());
+        model.addAttribute("date", LocalDate.now());
 
         // BankAccount template
         model.addAttribute("bankAccount", new BankAccountDto());
 
+        // Currency type
+        model.addAttribute("currencies", this.currencyTypeService.findAll());
+
         return "accounts-new";
+    }
+
+    @PostMapping("/user/account-new")
+    public String createBankAccount(@RequestParam String currency) {
+
+        return "redirect:/user/accounts";
     }
 
     @GetMapping("/user/{id}/account")
     public String previewAccount(@PathVariable Long id,
                                  @RequestParam(required = false) String transactionValidation,
-                                 Model model){
+                                 Model model) {
 
         // Add the Bank Account to the model
         BankAccountDto bankAccountDto = this.bankAccountService.findBankAccountById(id);

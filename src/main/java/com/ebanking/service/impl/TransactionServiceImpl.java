@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         // Deduct amount from sender's balance
         if (!senderAcc.canSubstractAmount(convertedAmount)) {
-            //todo: Dont allow transaction if balance below amount
+            //Dont allow transaction if balance below amount
             return "Not enough balance to send!";
         }
         senderAcc.substractAmount(convertedAmount);
@@ -74,6 +74,9 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setCurrencyTypeSender(senderAcc.getCurrencyType());
         transaction.setAmount(amountDouble);
         transaction.setDescription(transactionDto.getDescription());
+
+        //Save transaction to database
+        this.transactionRepository.save(transaction);
 
         return "Success";
     }
