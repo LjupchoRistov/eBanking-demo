@@ -91,6 +91,6 @@ public class AuthController {
         }
 
         userService.saveUser(user);
-        return "redirect:/news-articles";
+        return "redirect:/login";
     }
 }

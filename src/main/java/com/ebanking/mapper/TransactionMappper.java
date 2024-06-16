@@ -12,10 +12,10 @@ public class TransactionMappper {
     public static Transaction mapToTransaction(TransactionDto transactionDto, BankAccountRepository bankAccountRepository, CurrencyTypeRepository currencyTypeRepository){
         return  Transaction.builder()
                 .id(transactionDto.getId())
-                .sender(bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getSender())))
+                .sender(bankAccountRepository.findByAccountNumEquals((transactionDto.getSender())))
                 .amount(Double.valueOf(transactionDto.getAmount()))
                 .currencyTypeSender(currencyTypeRepository.findByNameEquals(transactionDto.getCurrencyTypeSender()))
-                .receiver(bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver())))
+                .receiver(bankAccountRepository.findByAccountNumEquals((transactionDto.getReceiver())))
                 .transactionDate(transactionDto.getTransactionDate())
                 .build();
     }

@@ -4,10 +4,14 @@ import com.ebanking.dto.BankAccountDto;
 import com.ebanking.dto.TransactionDto;
 import com.ebanking.models.UserEntity;
 import com.ebanking.repository.TransactionRepository;
+import com.ebanking.security.SecurityUtil;
 import com.ebanking.service.BankAccountService;
 import com.ebanking.service.CurrencyTypeService;
 import com.ebanking.service.TransactionService;
 import com.ebanking.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,11 +40,22 @@ public class BankAccountController {
         this.currencyTypeService = currencyTypeService;
     }
 
+    private UserEntity getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            return this.userService.findByUsername(username);
+        }
+        return null;
+    }
     @GetMapping("/user/accounts")
     public String getUserBankAccount(Model model) {
         //todo: Implement dynamic real life user
-        String username = "bubsi";
-        UserEntity user = this.userService.findByUsername(username);
+        String username= SecurityUtil.getSessionUser();
+        UserEntity user=userService.findByUsername(username);
+        if (user == null) {
+            return "redirect:/login"; // Redirect to login if the user is not authenticated
+        }
         List<BankAccountDto> accounts = this.bankAccountService.findBankAccountsByUser(user);
 
         // Add user
@@ -61,8 +76,11 @@ public class BankAccountController {
     @GetMapping("/user/account-new")
     public String createBankAccount(Model model) {
         //todo: Implement dynamic real life user
-        String username = "bubsi";
-        UserEntity user = this.userService.findByUsername(username);
+        String username= SecurityUtil.getSessionUser();
+        UserEntity user=userService.findByUsername(username);
+        if (user == null || username==null) {
+            return "redirect:/login"; // Redirect to login if the user is not authenticated
+        }
 
         // Add user
         model.addAttribute("user", user);
@@ -87,8 +105,15 @@ public class BankAccountController {
 
     @PostMapping("/user/account-new")
     public String createBankAccount(@RequestParam String currency) {
+        String username= SecurityUtil.getSessionUser();
+        UserEntity user=userService.findByUsername(username);
+        if (user == null) {
+            return "redirect:/login"; // Redirect to login if the user is not authenticated
+        }
 
+        this.bankAccountService.createBankAccount(currency, user);
         return "redirect:/user/accounts";
+
     }
 
     @GetMapping("/user/{id}/account")

@@ -23,9 +23,10 @@ public class BankAccount {
     private Long id;
     // Number must contain 15 digits
     // 300 for country code
-    private Integer accountNum;
+
     private Boolean isDebit;
     private Double balance;
+    private String accountNum;
     @CreationTimestamp
     private LocalDateTime dateCreatedOn;
 

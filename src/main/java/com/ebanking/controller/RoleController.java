@@ -38,7 +38,7 @@ public class RoleController {
         roles.removeIf(role -> !role.getName().equals("ADMIN"));
 
         if (roles.isEmpty())
-            return "redirect:/news-articles";
+            return "redirect:/user/accounts";
 
 
         List<UserEntity> users = this.userService.findAll();
@@ -60,7 +60,7 @@ public class RoleController {
         roles.removeIf(role -> !role.getName().equals("ADMIN"));
 
         if (roles.isEmpty())
-            return "redirect:/news-articles";
+            return "redirect:/user/accounts";
 
         UserEntity user = this.userService.findById(userId);
 

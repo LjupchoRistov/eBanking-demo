@@ -46,8 +46,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public String createTransaction(TransactionDto transactionDto) {
-        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getSender()));
-        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals(Integer.valueOf(transactionDto.getReceiver()));
+        BankAccount senderAcc = this.bankAccountRepository.findByAccountNumEquals((transactionDto.getSender()));
+        BankAccount receiverAcc = this.bankAccountRepository.findByAccountNumEquals((transactionDto.getReceiver()));
 
         CurrencyType currencyTypeSender = senderAcc.getCurrencyType();
         CurrencyType currencyTypeReceiver = receiverAcc.getCurrencyType();

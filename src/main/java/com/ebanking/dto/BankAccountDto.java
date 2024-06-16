@@ -18,7 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class BankAccountDto {
     private Long id;
-    private Integer accountNum;
+
+    private String accountNum;
     private Boolean isDebit;
     private Double balance;
     private LocalDateTime dateCreatedOn;

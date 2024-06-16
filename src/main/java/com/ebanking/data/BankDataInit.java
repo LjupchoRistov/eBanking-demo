@@ -54,14 +54,14 @@ public class BankDataInit {
         if (this.bankAccountRepository.findAll().isEmpty()){
             UserEntity user = this.userRepository.findAll().get(0);
             CurrencyType currencyType = this.currencyTypeRepository.findByNameEquals("Macedonian Denar");
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111111, true, (double)10000, LocalDateTime.now(), currencyType, user));
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111112, true, (double)18000, LocalDateTime.now(), currencyType, user));
-            this.bankAccountRepository.save(new BankAccount((long) 999, 1111111113, true, (double)340000, LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999,  true, (double)10000,"MK1111111111", LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999,  true, (double)18000,"US1111111112", LocalDateTime.now(), currencyType, user));
+            this.bankAccountRepository.save(new BankAccount((long) 999,  true, (double)340000, "EU1111111113",LocalDateTime.now(), currencyType, user));
         }
 
         if (this.transactionRepository.findAll().isEmpty()){
-            BankAccount bankAccount1 = this.bankAccountRepository.findByAccountNumEquals(1111111111);
-            BankAccount bankAccount2 = this.bankAccountRepository.findByAccountNumEquals(1111111112);
+            BankAccount bankAccount1 = this.bankAccountRepository.findByAccountNumEquals("MK1111111111");
+            BankAccount bankAccount2 = this.bankAccountRepository.findByAccountNumEquals("EU1111111113");
             CurrencyType currencyType = this.currencyTypeRepository.findByNameEquals("Macedonian Denar");
 //            this.transactionRepository.save(new Transaction((long) 999, "Shopping", bankAccount1, bankAccount2, currencyType, (double) 1500, LocalDateTime.now()));
 //            this.transactionRepository.save(new Transaction((long) 999, "New Computer", bankAccount1, bankAccount2, currencyType, (double) 65000, LocalDateTime.now()));

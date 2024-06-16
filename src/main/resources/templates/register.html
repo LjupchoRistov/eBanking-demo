@@ -4,6 +4,7 @@
         layout:decorate="~{layout}">
 <head>
     <title>Register</title>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <section layout:fragment="body">
     <style>
@@ -111,7 +112,7 @@
                     <div class="form-group inputDiv">
                         <label>Address</label>
                         <input
-                                type="password"
+                                type="text"
                                 class="form-control"
                                 placeholder="Address"
                                 th:field="*{address}">
@@ -124,7 +125,7 @@
                         </div>
                         <div class="col-4">
                             <div class="g-recaptcha"
-                                 data-sitekey="6LdLuoMpAAAAAI0T__g4CrB-SUOgoQrZsY9aJnmJ">
+                                 data-sitekey="6Ld_RPopAAAAAM-gkYlzdD0C7V5N6aCD7Imtqn8l">
                             </div>
                         </div>
                     </div>
