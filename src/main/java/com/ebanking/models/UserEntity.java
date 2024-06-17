@@ -25,7 +25,10 @@ public class UserEntity {
     private String address;
     private String hashedPassword;
     private String salt;
-
+    private Integer pin;
+    private String hashPin;
+    private String pinSalt;
+    private boolean isPinInitialized = false;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",

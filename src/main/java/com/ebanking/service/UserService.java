@@ -10,7 +10,7 @@ public interface UserService {
     void saveUser(UserEntity user);
 
     UserEntity findByEmail(String email);
-
+Boolean checkPin(String pin,UserEntity user);
     UserEntity findByUsername(String username);
     UserEntity findById(Long id);
     List<UserEntity> findAll();

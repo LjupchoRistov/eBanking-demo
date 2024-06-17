@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Data
 @Builder
@@ -26,7 +28,9 @@ public class RegistrationDto {
     @NotEmpty(message = "Password cannot be empty!")
     private String password;
     private String repeatPassword;
-
+    @NotEmpty(message = "PIN is required")
+    @Pattern(regexp = "\\d{4}", message = "PIN must be exactly 4 digits")
+    private String pin;
     public String getRP(){
         return repeatPassword;
     }

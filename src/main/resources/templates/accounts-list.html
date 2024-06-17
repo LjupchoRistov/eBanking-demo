@@ -38,6 +38,15 @@
         border-bottom-width: 1px;
         border-bottom-color: rgba(119, 136, 153, 0.62);
     }
+    .delete-item{
+        background-color: red;
+        border-radius: 5px;
+        color: white;
+        outline: none;
+        border: none;
+        padding: 5px;
+        width: 70px;
+    }
 </style>
 <div class="body-container container-fluid mt-5 h-100">
     <div class="row justify-content-center">
@@ -129,6 +138,13 @@
                                 <span th:text="${account.getDateCreatedOn().getYear()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getMonthValue()}"></span>-<span
                                     th:text="${account.getDateCreatedOn().getDayOfMonth()}"></span>
+                            </td>
+                            <td>
+                                <form th:action="@{/user/{id}/delete (id=${account.id})}" th:method="post">
+
+                                    <button type="submit" class="delete-item">Delete</button>
+
+                                </form>
                             </td>
                             <td class="cell_small">
                                 <a th:href="@{'/user/{id}/account'(id=${account.getId()})}">More -></a>

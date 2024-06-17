@@ -2,6 +2,7 @@ package com.ebanking.controller;
 
 import com.ebanking.dto.BankAccountDto;
 import com.ebanking.dto.TransactionDto;
+import com.ebanking.models.BankAccount;
 import com.ebanking.models.UserEntity;
 import com.ebanking.repository.TransactionRepository;
 import com.ebanking.security.SecurityUtil;
@@ -9,15 +10,15 @@ import com.ebanking.service.BankAccountService;
 import com.ebanking.service.CurrencyTypeService;
 import com.ebanking.service.TransactionService;
 import com.ebanking.service.UserService;
+import com.google.zxing.qrcode.decoder.Mode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -56,6 +57,7 @@ public class BankAccountController {
         if (user == null) {
             return "redirect:/login"; // Redirect to login if the user is not authenticated
         }
+
         List<BankAccountDto> accounts = this.bankAccountService.findBankAccountsByUser(user);
 
         // Add user
@@ -144,5 +146,38 @@ public class BankAccountController {
         else model.addAttribute("transactionValidation", transactionValidation);
 
         return "accounts-details";
+    }
+    @PostMapping ("/user/{id}/delete")
+    public String deleteBankAccount(@PathVariable Long id){
+
+        this.bankAccountService.deleteBankAccount(id);
+        return "redirect:/user/accounts";
+
+    }
+    @GetMapping("/user/verify")
+    public String getVerifyPin(Model model,@RequestParam (required = false) String error ){
+        String username= SecurityUtil.getSessionUser();
+        UserEntity user=userService.findByUsername(username);
+        if (user == null || username==null) {
+            return "redirect:/login"; // Redirect to login if the user is not authenticated
+        }
+        if(error!=null){
+            model.addAttribute("pinError","Incorrect PIN try again");
+        }
+
+      return "verify-pin";
+    }
+    @PostMapping("/verify-user")
+    public String verifyPin(@RequestParam String pin,RedirectAttributes redirectAttributes){
+        String username=SecurityUtil.getSessionUser();
+       UserEntity  user=userService.findByUsername(username);
+      if(userService.checkPin(pin,user)){
+          return "redirect:/user/accounts";
+      }
+      else{
+          redirectAttributes.addAttribute("error","pinError");
+       return "redirect:/user/verify";
+      }
+
     }
 }

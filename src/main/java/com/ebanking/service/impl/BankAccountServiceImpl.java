@@ -12,6 +12,7 @@ import com.ebanking.repository.UserRepository;
 import com.ebanking.service.BankAccountService;
 import org.springframework.stereotype.Service;
 
+import javax.naming.directory.InvalidAttributeIdentifierException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -115,4 +116,9 @@ private final CurrencyTypeRepository currencyTypeRepository;
     public BankAccountDto findBankAccountByNumber(String sender) {
         return mapToBankAccountDto(this.bankAccountRepository.findByAccountNumEquals(sender));
     }
+  public BankAccount deleteBankAccount(Long id){
+    BankAccount bankAccount= bankAccountRepository.findById(id).orElseThrow();
+    bankAccountRepository.deleteById(id);
+    return bankAccount;
+  }
 }

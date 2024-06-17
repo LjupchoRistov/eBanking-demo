@@ -11,6 +11,7 @@ public interface BankAccountService {
     List<BankAccountDto> findBankAccountsByUser(UserEntity user);
     BankAccountDto findBankAccountById(Long id);
     BankAccount createBankAccount(String currency, UserEntity user);
+    BankAccount deleteBankAccount(Long id);
     BankAccountDto findBankAccountByNumber(String sender);
     Integer activeBankAccounts(UserEntity user);
     Integer availableBankAccounts(UserEntity user);

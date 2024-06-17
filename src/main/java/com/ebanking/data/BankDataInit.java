@@ -42,7 +42,7 @@ public class BankDataInit {
 
             // HP: FEA6nGcpvnnvxNoKe4B/M1vqng1UPg3/96ntP9ajST0=
             // S: /OuH4gW9fJJarBgxZA7JcA==
-            this.userRepository.save(new UserEntity((long) 999, "bubsi", "ljupcoristov02@gmail.com", "Ljupcho", "Ristov", "Skopje, Tiranska 1b", "FEA6nGcpvnnvxNoKe4B/M1vqng1UPg3/96ntP9ajST0=", "/OuH4gW9fJJarBgxZA7JcA==", roles));
+            this.userRepository.save(new UserEntity((long) 999, "bubsi", "ljupcoristov02@gmail.com", "Ljupcho", "Ristov", "Skopje, Tiranska 1b", "FEA6nGcpvnnvxNoKe4B/M1vqng1UPg3/96ntP9ajST0=", "/OuH4gW9fJJarBgxZA7JcA==",1234,"FEA6nGcpvnnvxNoKe4B/M1vqng1UPg3/96ntP9ajST0=","/OuH4gW9fJJarBgxZA7JcA==",false, roles));
         }
 
         if (this.currencyTypeRepository.findAll().isEmpty()){

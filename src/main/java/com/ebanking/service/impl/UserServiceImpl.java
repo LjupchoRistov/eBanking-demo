@@ -60,25 +60,42 @@ public class UserServiceImpl implements UserService {
     public void saveUser(RegistrationDto registrationDto) {
         UserEntity user = new UserEntity();
         String salt = createSalt();
+        String pinSalt=createSalt();
+
         user.setUsername(registrationDto.getUsername());
         user.setEmail(registrationDto.getEmail());
         //todo: set SALT
         user.setSalt(salt);
+        user.setPinSalt(pinSalt);
         //todo: set HASHED PASSWORD
         user.setHashedPassword(hashPassword(combinePasswordAndSalt(registrationDto.getPassword(), salt.getBytes())));
+        user.setHashPin(hashPassword(combinePasswordAndSalt(registrationDto.getPin(),pinSalt.getBytes())));
         Role role = roleRepository.findByName("USER");
         user.setRoles(Arrays.asList(role));
+
         userRepository.save(user);
     }
+
 
     @Override
     public void saveUser(UserEntity user) {
         this.userRepository.save(user);
     }
 
+
     @Override
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Boolean checkPin(String pin, UserEntity user) {
+        String storedSalt=user.getPinSalt();
+        String storedHashPin=user.getHashPin();
+        String combinePinAndSalt=combinePasswordAndSalt(pin,storedSalt.getBytes());
+        String hashedPin=hashPassword(combinePinAndSalt);
+
+        return hashedPin.equals(storedHashPin);
     }
 
     @Override
